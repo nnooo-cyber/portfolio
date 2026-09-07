@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naoki Nishizawa | Photographer Portfolio</title>
+<meta name="description" content="写真家 西澤 直樹のポートフォリオサイト。人物・風景を中心としたモノクロームとフィルムの作品を掲載。">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#151310',
+          paper: '#f4f1e9',
+          stone: '#a9a296',
+          line: '#dbd6c8',
+          oxide: '#8a3a29'
+        },
+        fontFamily: {
+          serif: ['"Fraunces"', 'serif'],
+          sans: ['"Noto Sans JP"', 'sans-serif'],
+          mincho: ['"Shippori Mincho"', 'serif'],
+          name: ['"EB Garamond"', 'serif']
+        },
+        letterSpacing: {
+          widest2: '.28em'
+        }
+      }
+    }
+  }
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Noto+Sans+JP:wght@300;400;500;700&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans JP', sans-serif; background-color: #f4f1e9; color: #151310; }
+  .font-serif { font-feature-settings: "liga" 1; }
+
+  /* ドロワーメニュー */
+  #drawer { transition: clip-path .7s cubic-bezier(.77,0,.18,1); clip-path: circle(0% at calc(100% - 40px) 40px); }
+  #drawer.open { clip-path: circle(150% at calc(100% - 40px) 40px); }
+
+  /* ヘッダーのスクロール状態 */
+  #siteHeader { transition: background-color .4s ease, border-color .4s ease; }
+  #siteHeader.scrolled { background-color: rgba(244,241,233,0.92); border-bottom: 1px solid #dbd6c8; backdrop-filter: blur(6px); }
+
+  /* トップページの写真の上にある時だけヘッダーを白文字にして視認性を確保 */
+  #siteHeader a, #siteHeader .menu-label, #siteHeader .lang-toggle-btn { color: #151310; transition: color .4s ease; }
+  #siteHeader .menu-bar { background-color: #151310; transition: background-color .4s ease; }
+  #siteHeader.header-light a, #siteHeader.header-light .menu-label, #siteHeader.header-light .lang-toggle-btn { color: #f4f1e9; }
+  #siteHeader.header-light .menu-bar { background-color: #f4f1e9; }
+
+  /* ギャラリー masonry */
+  .masonry { column-gap: 12px; }
+  .masonry > * { break-inside: avoid; margin-bottom: 12px; }
+
+  .gallery-item { transition: opacity .3s ease, filter .5s ease; }
+  .gallery-item img { transition: transform .7s ease, filter .5s ease; filter: grayscale(1) contrast(1.02); }
+  .gallery-item:hover img { transform: scale(1.03); }
+  .gallery-item.is-color img { filter: none; }
+  .gallery-item.is-hidden { display: none; }
+
+  .tab-btn { position: relative; }
+  .tab-btn::after { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 1px; background: #151310; transform: scaleX(0); transform-origin: left; transition: transform .35s ease; }
+  .tab-btn.active::after, .tab-btn:hover::after { transform: scaleX(1); }
+
+  /* ヒーロースライドショー：雲のように溶け合うクロスフェード */
+  .hero-slide { opacity: 0; transition: opacity 2500ms ease-in-out; }
+  .hero-slide.is-active { opacity: 1; }
+
+  /* ページ切り替え：メニューから選んだページだけを表示 */
+  .app-page { display: none; }
+  .app-page.is-active { display: block; animation: pageFadeIn .5s ease; }
+  @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .field { border: none; border-bottom: 1px solid #dbd6c8; background: transparent; padding: 10px 2px; width: 100%; font-family: 'Noto Sans JP', sans-serif; outline: none; }
+  .field:focus { border-color: #151310; }
+
+  ::selection { background: #151310; color: #f4f1e9; }
+
+  /* 日本語／英語 切り替え */
+  html[data-lang="ja"] .lang-en { display: none !important; }
+  html[data-lang="en"] .lang-ja { display: none !important; }
+  .lang-switch { position: relative; }
+  .lang-toggle-btn { display: flex; align-items: center; gap: 6px; }
+  .lang-toggle-btn i { transition: transform .3s ease; }
+  .lang-switch.open .lang-toggle-btn .chevron { transform: rotate(180deg); }
+  .lang-menu { position: absolute; right: 0; top: calc(100% + 14px); background: #f4f1e9; border: 1px solid #dbd6c8; min-width: 128px; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .25s ease, transform .25s ease, visibility .25s; }
+  .lang-switch.open .lang-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .lang-option { display: block; width: 100%; text-align: left; padding: 10px 16px; color: #151310; font-size: 14px; }
+  .lang-option:hover { background: rgba(21,19,16,0.06); }
+  .lang-option.active { color: #8a3a29; }
+</style>
+</head>
+
+<body class="antialiased">
+
+<!-- ============ HEADER ============ -->
+<header id="siteHeader" class="fixed top-0 inset-x-0 z-40 border-b border-transparent">
+  <div class="max-w-[1400px] mx-auto flex items-center justify-between px-6 md:px-10 h-20">
+    <a href="#top" class="font-serif text-lg tracking-widest2 uppercase">N. Nishizawa</a>
+    <div class="flex items-center gap-5">
+      <div id="langSwitch" class="lang-switch">
+        <button id="langToggle" type="button" class="lang-toggle-btn" aria-haspopup="true" aria-expanded="false" aria-label="言語を選択">
+          <i class="fa-solid fa-globe text-[15px]"></i>
+          <i class="fa-solid fa-chevron-down chevron text-[10px]"></i>
+        </button>
+        <div id="langMenu" class="lang-menu" role="menu">
+          <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
+          <button type="button" class="lang-option active" data-lang="ja" role="menuitem">日本語</button>
+        </div>
+      </div>
+      <button id="drawerToggle" class="flex items-center gap-3 group" aria-label="メニューを開く" aria-expanded="false" aria-controls="drawer">
+        <span class="relative w-7 h-4 flex flex-col justify-between">
+          <span class="menu-bar block h-px w-full bg-ink"></span>
+          <span class="menu-bar block h-px w-full bg-ink"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ DRAWER NAV ============ -->
+<div id="drawer" class="fixed inset-0 z-50 bg-ink text-paper flex flex-col justify-between">
+  <div class="flex justify-end px-6 md:px-10 h-20 items-center">
+    <button id="drawerClose" class="text-xs tracking-widest2 uppercase" aria-label="メニューを閉じる">Close ×</button>
+  </div>
+  <nav class="flex-1 flex flex-col justify-center px-8 md:px-20 gap-2">
+    <a href="#top" class="drawer-link font-serif text-4xl md:text-6xl py-2 hover:pl-4 transition-all duration-300">Top</a>
+    <a href="#about" class="drawer-link font-serif text-4xl md:text-6xl py-2 hover:pl-4 transition-all duration-300">Biography</a>
+    <a href="#works" class="drawer-link font-serif text-4xl md:text-6xl py-2 hover:pl-4 transition-all duration-300">Works</a>
+    <a href="#contact" class="drawer-link font-serif text-4xl md:text-6xl py-2 hover:pl-4 transition-all duration-300">Contact</a>
+  </nav>
+  <div class="px-8 md:px-20 pb-10 flex items-center gap-6 text-sm">
+    <a href="https://www.instagram.com/naokinishizawajp/" target="_blank" rel="noopener noreferrer" class="hover:opacity-60" aria-label="Instagram"><i class="fa-brands fa-instagram text-lg"></i></a>
+
+    <span class="ml-auto text-stone tracking-widest2 uppercase text-xs">Madrid, Spain</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- ============ TOP PAGE ============ -->
+  <section id="top" class="app-page is-active">
+
+  <!-- ============ HERO ============ -->
+  <div class="relative h-[100svh] min-h-[560px] w-full overflow-hidden">
+    <div id="heroSlideshow" class="absolute inset-0 w-full h-full">
+      <img src="images/frontslide1.jpg" class="hero-slide is-active absolute inset-0 w-full h-full object-cover grayscale">
+      <img src="images/frontslide2.jpg" class="hero-slide absolute inset-0 w-full h-full object-cover grayscale">
+      <img src="images/frontslide3.jpg" class="hero-slide absolute inset-0 w-full h-full object-cover grayscale">
+      <img src="images/frontslide5.jpg" class="hero-slide absolute inset-0 w-full h-full object-cover grayscale">
+      <img src="images/frontslide7.jpg" class="hero-slide absolute inset-0 w-full h-full object-cover grayscale">
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-ink/40"></div>
+    <div class="absolute inset-x-0 top-0 h-28 md:h-36 bg-gradient-to-b from-ink/55 to-transparent pointer-events-none"></div>
+
+    <div class="relative z-10 h-full max-w-[1400px] mx-auto px-6 md:px-10 flex flex-col justify-end pb-16 md:pb-20">
+      <p class="text-paper/70 text-[10px] md:text-xs tracking-wide uppercase mb-3">
+        <span class="lang-ja">フォトグラファー — ポートレート / ライフスタイル / エディトリアル</span>
+        <span class="lang-en">Photographer — Portrait / Lifestyle / Editorial</span>
+      </p>
+      <h1 class="font-serif text-paper text-[clamp(1.75rem,4.5vw,3.5rem)] leading-[0.95] tracking-wide md:tracking-widest2 uppercase">Naoki Nishizawa</h1>
+    </div>
+
+  </div>
+
+  <!-- ============ NEWSお知らせ帯 ============ -->
+  <div id="newsBlock" class="bg-ink text-paper">
+    <a href="#works" class="block group">
+      <div class="max-w-[1400px] mx-auto px-6 md:px-10 py-4 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-sm group-hover:opacity-80 transition-opacity">
+        <span class="inline-block text-[11px] tracking-widest2 uppercase border border-paper/40 px-2 py-0.5 w-fit"><span class="lang-ja">新着</span><span class="lang-en">New</span></span>
+        <p class="font-mincho lang-ja text-paper/85">新しい情報を更新しました。</p>
+        <p class="lang-en text-paper/85">New updates are now available.</p>
+      </div>
+    </a>
+  </div>
+
+  </section>
+  <!-- ============ /TOP PAGE ============ -->
+
+  <!-- ============ ABOUT / BIOGRAPHY ============ -->
+  <section id="about" class="app-page max-w-[1400px] mx-auto px-6 md:px-10 pt-24 md:pt-36 pb-6 md:pb-8">
+
+    <div class="[transform:translateX(2rem)_scale(0.8)] [transform-origin:top_left] -mb-32 md:-mb-40">
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
+
+      <div class="md:col-span-2 md:col-start-3">
+        <div class="lang-ja font-mincho [writing-mode:vertical-rl] mb-6 [transform:translateX(0.5rem)] md:[transform:translateX(0.75rem)]">
+          <div class="text-sm tracking-[0.5em] text-ink [transform:translate(-0.5rem,4.5rem)] md:[transform:translate(-0.75rem,6rem)]">写真家</div>
+          <div class="text-4xl md:text-5xl font-bold tracking-[0.2em] text-ink [transform:translate(-1.125rem,4.5rem)] md:[transform:translate(-1.5rem,6rem)]">
+            西澤直樹
+          </div>
+        </div>
+        <h2 class="font-name font-normal text-4xl md:text-5xl leading-tight tracking-wide lang-en [transform:translate(-2em,4em)]">Naoki Nishizawa<span class="block font-name italic text-2xl md:text-3xl text-stone mt-1 tracking-wide">Photographer</span></h2>
+      </div>
+
+      <div class="md:col-span-8 md:col-start-5">
+        <img src="https://placehold.co/1400x900/2a2620/f4f1e9?text=Portrait" alt="西澤直樹のポートレート写真：後でご自身の写真に差し替えてください" class="w-full grayscale">
+      </div>
+
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 mt-16 md:mt-20">
+      <div class="hidden md:block md:col-span-4"></div>
+      <div class="md:col-span-8">
+        <p class="lang-ja font-mincho font-bold text-2xl md:text-3xl leading-[1.6] tracking-wide mb-8">
+          光と陰影のあいだにある、その人だけの表情を探している。
+        </p>
+        <p class="lang-en font-name italic font-normal text-2xl md:text-3xl leading-[1.5] tracking-wide mb-8">
+          Between light and shadow, I search for the expression only that person holds.
+        </p>
+
+        <div class="lang-ja font-mincho space-y-5 text-[19px] leading-loose text-ink/85 max-w-[34rem]">
+          <p>ヨーロッパと日本を拠点に活動する写真家。</p>
+          <p>日常の中にある静かな瞬間——光、色、人々、そして街を歩く中で偶然出会う風景を撮影しています。</p>
+          <p>特別な出来事だけではなく、何気ない日常にふと現れる美しさや、人とその周囲の環境との間に生まれる一瞬の関係に惹かれています。</p>
+          <p>街を歩きながら、光や色、誰かの仕草、偶然重なった人と風景の関係を観察し、その瞬間にしか存在しない空気を写真として残しています。</p>
+          <p>人物を撮るときも、その人自身だけでなく、いる場所や光、周囲の空気までを一つの風景として捉えたいと考えています。</p>
+          <p>写真を通して、見過ごしてしまいそうな日常の一瞬に目を向け、一枚の写真の中に、見る人が想像できる余白を残す。</p>
+          <p>日常の中にある、まだ名前のない一瞬を探しています。</p>
+        </div>
+        <div class="lang-en font-name space-y-5 text-[19px] leading-loose text-ink/85 max-w-[64ch]">
+          <p>A photographer based between Europe and Japan.</p>
+          <p>I photograph quiet moments found in everyday life — light, color, people, and the scenery I happen to encounter while walking through the city.</p>
+          <p>Rather than extraordinary events, I'm drawn to the beauty that quietly surfaces in ordinary life, and the fleeting relationships that form between people and the environment around them.</p>
+          <p>As I walk through the streets, I observe light, color, a person's gesture, the chance overlap between someone and their surroundings — capturing an atmosphere that exists only in that single moment.</p>
+          <p>Even when photographing a person, I try to capture not just them, but the place they're in, the light, and the surrounding air as a single landscape.</p>
+          <p>Through photography, I turn my attention to the moments of daily life that might otherwise go unnoticed, leaving space within each image for the viewer's own imagination.</p>
+          <p>I'm always searching for those unnamed moments hidden within the everyday.</p>
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+  </section>
+
+  <!-- ============ WORKS / GALLERY ============ -->
+  <section id="works" class="app-page bg-white/40 border-t border-line">
+    <div class="max-w-[1400px] mx-auto px-6 md:px-10 py-24 md:py-36">
+
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <p class="text-xs tracking-widest2 uppercase text-stone mb-3"><span class="lang-ja">作品集</span><span class="lang-en">Selected Works</span></p>
+          <h2 class="font-serif text-4xl md:text-5xl">Works</h2>
+        </div>
+        <div class="flex gap-8 text-sm tracking-wide">
+          <button class="tab-btn active pb-1" data-filter="all"><span class="lang-ja">すべて</span><span class="lang-en">All</span></button>
+          <button class="tab-btn pb-1" data-filter="mono"><span class="lang-ja">モノクロ</span><span class="lang-en">Monochrome</span></button>
+          <button class="tab-btn pb-1" data-filter="color"><span class="lang-ja">カラー</span><span class="lang-en">Color</span></button>
+        </div>
+      </div>
+
+      <div id="gallery" class="masonry columns-2 md:columns-3">
+        <!-- gallery.json から自動生成されます（generate-gallery.js 参照） -->
+      </div>
+
+      <p id="galleryEmpty" class="hidden text-center text-stone text-sm py-16">
+        <span class="lang-ja">まだ作品がありません。works/monochrome または works/color フォルダに写真を追加してください。</span>
+        <span class="lang-en">No works yet. Add photos to the works/monochrome or works/color folder.</span>
+      </p>
+
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact" class="app-page max-w-[1400px] mx-auto px-6 md:px-10 py-24 md:py-36">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+
+      <div class="md:col-span-5">
+        <p class="text-xs tracking-widest2 uppercase text-stone mb-3">Contact</p>
+        <h2 class="font-serif text-4xl md:text-5xl mb-6">Contact</h2>
+        <p class="font-mincho lang-ja text-[15px] leading-loose text-ink/85 max-w-[48ch]">
+          撮影のご依頼やお問い合わせは、下記フォームまたはSNSのDMよりお気軽にご連絡ください。通常2〜3営業日以内にご返信いたします。
+        </p>
+        <p class="lang-en text-[15px] leading-loose text-ink/85 max-w-[48ch]">
+          For shoot inquiries or general questions, please feel free to reach out via the form below or through a DM on social media. I usually reply within 2–3 business days.
+        </p>
+
+        <ul class="flex items-center gap-6 mt-10">
+          <li><a href="https://www.instagram.com/naokinishizawajp/" target="_blank" rel="noopener noreferrer" class="flex flex-col items-center gap-2 group" aria-label="Instagram">
+            <i class="fa-brands fa-instagram text-xl group-hover:text-oxide"></i>
+            <span class="text-[11px] tracking-widest2 uppercase text-stone">Instagram</span>
+          </a></li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-7">
+        <form id="contactForm" class="space-y-8" novalidate="">
+          <div>
+            <label for="name" class="text-xs tracking-widest2 uppercase text-stone">Name <span class="text-oxide"><span class="lang-ja">必須</span><span class="lang-en">Required</span></span></label>
+            <input id="name" name="name" type="text" required="" placeholder="John Smith" class="field mt-2">
+          </div>
+          <div>
+            <label for="email" class="text-xs tracking-widest2 uppercase text-stone">E-mail <span class="text-oxide"><span class="lang-ja">必須</span><span class="lang-en">Required</span></span></label>
+            <input id="email" name="email" type="email" required="" placeholder="john.smith@sample.com" class="field mt-2">
+          </div>
+          <div>
+            <label for="tel" class="text-xs tracking-widest2 uppercase text-stone">Tel</label>
+            <input id="tel" name="tel" type="tel" placeholder="+81 80 1111 2222" class="field mt-2">
+          </div>
+          <div>
+            <label for="message" class="text-xs tracking-widest2 uppercase text-stone">Message <span class="text-oxide"><span class="lang-ja">必須</span><span class="lang-en">Required</span></span></label>
+            <textarea id="message" name="message" rows="5" required="" placeholder="Feel free to write your message" class="field mt-2 resize-none"></textarea>
+          </div>
+          <p id="formError" class="text-sm text-oxide hidden">
+            <span class="lang-ja">未入力の必須項目があります。ご確認ください。</span>
+            <span class="lang-en">Please fill in all required fields.</span>
+          </p>
+          <button type="submit" class="border border-ink px-8 py-3 text-sm tracking-widest2 uppercase hover:bg-ink hover:text-paper transition-colors">Send</button>
+          <p id="formSuccess" class="text-sm text-stone hidden">
+            <span class="lang-ja">送信内容を確認しました(このベースではデモ表示です。実際の送信にはフォーム機能の接続が必要です)。</span>
+            <span class="lang-en">Message received (this is a demo — connect a form backend to enable real submissions).</span>
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-line">
+  <div class="max-w-[1400px] mx-auto px-6 md:px-10 py-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <p class="font-name text-[11px] tracking-wide text-stone">Copyright © 2026 Naoki Nishizawa. All rights reserved.</p>
+    <a href="#top" class="text-xs tracking-widest2 uppercase text-stone hover:text-ink"><span class="lang-ja">トップへ戻る</span><span class="lang-en">Back to Top</span> ↑</a>
+  </div>
+</footer>
+
+<script>
+  // 言語切り替え（地球儀アイコン→ドロップダウン）
+  const htmlEl = document.documentElement;
+  const langSwitch = document.getElementById('langSwitch');
+  const langToggle = document.getElementById('langToggle');
+  const langOptions = document.querySelectorAll('.lang-option');
+  const placeholders = {
+    ja: { name: '山田 太郎', email: 'taro.yamada@sample.com', tel: '08011112222', message: 'ご自由にご記入ください' },
+    en: { name: 'John Smith', email: 'john.smith@sample.com', tel: '+81 80 1111 2222', message: 'Feel free to write your message' }
+  };
+  function setLanguage(lang) {
+    htmlEl.setAttribute('data-lang', lang);
+    htmlEl.setAttribute('lang', lang);
+    langOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.lang === lang));
+    const p = placeholders[lang];
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const telInput = document.getElementById('tel');
+    const messageInput = document.getElementById('message');
+    if (nameInput) nameInput.placeholder = p.name;
+    if (emailInput) emailInput.placeholder = p.email;
+    if (telInput) telInput.placeholder = p.tel;
+    if (messageInput) messageInput.placeholder = p.message;
+  }
+  function closeLangMenu() {
+    langSwitch.classList.remove('open');
+    langToggle.setAttribute('aria-expanded', 'false');
+  }
+  langToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = langSwitch.classList.toggle('open');
+    langToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+  langOptions.forEach(opt => {
+    opt.addEventListener('click', () => {
+      setLanguage(opt.dataset.lang);
+      closeLangMenu();
+    });
+  });
+  document.addEventListener('click', (e) => {
+    if (!langSwitch.contains(e.target)) closeLangMenu();
+  });
+
+  // ページ切り替え（Top / Biography / Works / Contact）
+  const appPages = document.querySelectorAll('.app-page');
+  function switchPage(targetId) {
+    appPages.forEach(page => {
+      page.classList.toggle('is-active', page.id === targetId);
+    });
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    updateHeaderMode();
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    const targetId = link.getAttribute('href').slice(1);
+    const targetEl = document.getElementById(targetId);
+    if (targetEl && targetEl.classList.contains('app-page')) {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchPage(targetId);
+        closeDrawer();
+      });
+    }
+  });
+
+  // ヒーロースライドショー（雲のように溶け合うクロスフェード）
+  const heroSlides = document.querySelectorAll('.hero-slide');
+  let heroIndex = 0;
+  if (heroSlides.length > 1) {
+    setInterval(() => {
+      heroSlides[heroIndex].classList.remove('is-active');
+      heroIndex = (heroIndex + 1) % heroSlides.length;
+      heroSlides[heroIndex].classList.add('is-active');
+    }, 5500); // 1枚あたりの表示時間（ミリ秒）。数字を大きくするほどゆっくり切り替わります
+  }
+
+  // ヘッダーのスクロール処理 ＋ トップページの写真の上にある時だけ白文字にする
+  const header = document.getElementById('siteHeader');
+  function updateHeaderMode() {
+    const topPage = document.getElementById('top');
+    const isTopPage = topPage && topPage.classList.contains('is-active');
+    const scrolled = window.scrollY > 40;
+    header.classList.toggle('scrolled', scrolled);
+    header.classList.toggle('header-light', isTopPage && !scrolled);
+  }
+  window.addEventListener('scroll', updateHeaderMode);
+  updateHeaderMode();
+
+  // ドロワーメニュー開閉
+  const drawer = document.getElementById('drawer');
+  const drawerToggle = document.getElementById('drawerToggle');
+  const drawerClose = document.getElementById('drawerClose');
+
+  function openDrawer() {
+    drawer.classList.add('open');
+    drawerToggle.setAttribute('aria-expanded', 'true');
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    drawerToggle.setAttribute('aria-expanded', 'false');
+  }
+  drawerToggle.addEventListener('click', openDrawer);
+  drawerClose.addEventListener('click', closeDrawer);
+  document.querySelectorAll('.drawer-link').forEach(link => {
+    link.addEventListener('click', closeDrawer);
+  });
+
+  // ギャラリー：gallery.json を読み込んで自動描画
+  let galleryPhotos = [];
+
+  function renderGallery(photos) {
+    const galleryEl = document.getElementById('gallery');
+    const emptyEl = document.getElementById('galleryEmpty');
+    galleryEl.innerHTML = '';
+
+    if (!photos.length) {
+      emptyEl.classList.remove('hidden');
+      return;
+    }
+    emptyEl.classList.add('hidden');
+
+    photos.forEach((photo, index) => {
+      const item = document.createElement('div');
+      const isMono = photo.category === 'monochrome';
+      item.className = 'gallery-item ' + (isMono ? 'is-mono' : 'is-color');
+      item.dataset.cat = isMono ? 'mono' : 'color';
+      item.dataset.index = index;
+
+      const img = document.createElement('img');
+      img.src = photo.src;
+      img.alt = photo.alt || ('Work ' + (index + 1));
+      img.className = 'w-full cursor-pointer';
+      img.loading = 'lazy';
+
+      item.appendChild(img);
+      galleryEl.appendChild(item);
+    });
+
+    // クリックでライトボックスを開く
+    galleryEl.querySelectorAll('.gallery-item img').forEach(img => {
+      img.addEventListener('click', () => {
+        const index = parseInt(img.closest('.gallery-item').dataset.index, 10);
+        openLightbox(index);
+      });
+    });
+
+    applyGalleryFilter(currentFilter);
+  }
+
+  function loadGallery() {
+    fetch('gallery.json?_=' + Date.now())
+      .then(res => {
+        if (!res.ok) throw new Error('gallery.json not found');
+        return res.json();
+      })
+      .then(data => {
+        const mono = (data.monochrome || []).map(p => ({ ...p, category: 'monochrome' }));
+        const color = (data.color || []).map(p => ({ ...p, category: 'color' }));
+        galleryPhotos = [...mono, ...color];
+        renderGallery(galleryPhotos);
+      })
+      .catch(() => {
+        // gallery.json がまだ無い場合は空表示にする
+        renderGallery([]);
+      });
+  }
+
+  // ギャラリーフィルター（すべて / モノクロ / カラー）
+  let currentFilter = 'all';
+  const tabs = document.querySelectorAll('.tab-btn');
+
+  function applyGalleryFilter(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      const show = filter === 'all' || item.dataset.cat === filter;
+      item.classList.toggle('is-hidden', !show);
+    });
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      applyGalleryFilter(tab.dataset.filter);
+    });
+  });
+
+  loadGallery();
+
+  // ライトボックス（クリックで拡大表示）
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  let lightboxIndex = 0;
+
+  function visiblePhotos() {
+    // 現在のフィルターで表示されている写真だけを対象にする
+    if (currentFilter === 'all') return galleryPhotos;
+    const catKey = currentFilter === 'mono' ? 'monochrome' : 'color';
+    return galleryPhotos.filter(p => p.category === catKey);
+  }
+
+  function openLightbox(fullIndex) {
+    const photo = galleryPhotos[fullIndex];
+    if (!photo) return;
+    const list = visiblePhotos();
+    lightboxIndex = list.findIndex(p => p.src === photo.src);
+    showLightboxImage();
+    lightbox.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function showLightboxImage() {
+    const list = visiblePhotos();
+    const photo = list[lightboxIndex];
+    if (!photo) return;
+    lightboxImg.src = photo.src;
+    lightboxImg.alt = photo.alt || '';
+  }
+
+  function closeLightbox() {
+    lightbox.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function showNext() {
+    const list = visiblePhotos();
+    lightboxIndex = (lightboxIndex + 1) % list.length;
+    showLightboxImage();
+  }
+
+  function showPrev() {
+    const list = visiblePhotos();
+    lightboxIndex = (lightboxIndex - 1 + list.length) % list.length;
+    showLightboxImage();
+  }
+
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  document.getElementById('lightboxNext').addEventListener('click', showNext);
+  document.getElementById('lightboxPrev').addEventListener('click', showPrev);
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.style.display !== 'flex') return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') showNext();
+    if (e.key === 'ArrowLeft') showPrev();
+  });
+
+  // お問い合わせフォーム（デモ用バリデーション）
+  const form = document.getElementById('contactForm');
+  const formError = document.getElementById('formError');
+  const formSuccess = document.getElementById('formSuccess');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const required = form.querySelectorAll('[required]');
+    let valid = true;
+    required.forEach(field => { if (!field.value.trim()) valid = false; });
+
+    if (!valid) {
+      formError.classList.remove('hidden');
+      formSuccess.classList.add('hidden');
+    } else {
+      formError.classList.add('hidden');
+      formSuccess.classList.remove('hidden');
+      form.reset();
+    }
+  });
+</script>
+
+
+
+<!-- ============ LIGHTBOX（写真拡大表示） ============ -->
+<div id="lightbox" class="fixed inset-0 z-[60] bg-ink/95 items-center justify-center p-6 md:p-12" style="display:none;">
+  <button id="lightboxClose" class="absolute top-6 right-6 md:top-8 md:right-10 text-paper text-2xl leading-none hover:opacity-60" aria-label="閉じる">×</button>
+  <button id="lightboxPrev" class="absolute left-3 md:left-8 top-1/2 -translate-y-1/2 text-paper text-3xl px-2 hover:opacity-60" aria-label="前の写真">‹</button>
+  <img id="lightboxImg" src="" alt="" class="max-w-full max-h-full object-contain">
+  <button id="lightboxNext" class="absolute right-3 md:right-8 top-1/2 -translate-y-1/2 text-paper text-3xl px-2 hover:opacity-60" aria-label="次の写真">›</button>
+</div>
+
+</body></html>
